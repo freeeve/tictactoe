@@ -6,14 +6,14 @@
   (vec (repeat (* n n) "")))
 
 (def permutation-map 
-  {:normal (fn [x y n] (+ x (* y n)))
-   :rotate-left-90 (fn [x y n] (+ (- n (+ y 1)) (* x n)))
-   :rotate-left-180 (fn [x y n] (+ (- n (+ x 1)) (* (- n (+ y 1)) n)))
-   :rotate-left-270 (fn [x y n] (+ y (* (- n (+ x 1)) n)))
-   :reflect-vertical (fn [x y n] (+ (- n (+ x 1)) (* y n)))
+  {:normal             (fn [x y n] (+ x (* y n)))
+   :rotate-left-90     (fn [x y n] (+ (- n (+ y 1)) (* x n)))
+   :rotate-left-180    (fn [x y n] (+ (- n (+ x 1)) (* (- n (+ y 1)) n)))
+   :rotate-left-270    (fn [x y n] (+ y (* (- n (+ x 1)) n)))
+   :reflect-vertical   (fn [x y n] (+ (- n (+ x 1)) (* y n)))
    :reflect-horizontal (fn [x y n] (+ x (* (- n (+ y 1)) n)))
-   :reflect-on-d1 (fn [x y n] (+ y (* x n)))
-   :reflect-on-d2 (fn [x y n] (+ (- n (+ y 1)) (* (- n (+ x 1)) n)))
+   :reflect-on-d1      (fn [x y n] (+ y (* x n)))
+   :reflect-on-d2      (fn [x y n] (+ (- n (+ y 1)) (* (- n (+ x 1)) n)))
    })
 
 (defn get-board-value-with-permutation
