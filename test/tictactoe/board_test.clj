@@ -9,24 +9,20 @@
 
 (deftest print-normal
   (testing "print normal"
-    (is (= (print-board (range-board 1) 1 :normal)
-" 0
-"))
-    (is (= (print-board (range-board 2) 2 :normal)
-" 0 1
- 2 3
-"))
-    (is (= (print-board (range-board 3) 3 :normal)
-" 0 1 2
- 3 4 5
- 6 7 8
-"))
-    (is (= (print-board (range-board 4) 4 :normal)
-"  0  1  2  3
-  4  5  6  7
-  8  9 10 11
- 12 13 14 15
-"))
+    (is (= (print-board (range-board 1) 1 :normal) 
+           (str " 0\n")))
+    (is (= (print-board (range-board 2) 2 :normal) 
+           (str " 0 1\n"
+                " 2 3\n")))
+    (is (= (print-board (range-board 3) 3 :normal) 
+           (str " 0 1 2\n"
+                " 3 4 5\n"
+                " 6 7 8\n")))
+    (is (= (print-board (range-board 4) 4 :normal) 
+           (str "  0  1  2  3\n"
+                "  4  5  6  7\n"
+                "  8  9 10 11\n"
+                " 12 13 14 15\n")))
   )
 )
 
@@ -49,64 +45,64 @@
   (testing "print permutations for 2x2"
     (let [n 2 board (range-board n)]
       (is (= (print-board board n :normal) 
-" 0 1
- 2 3\n"))
-      (is (= (print-board board n :rotate-left-90)
-" 1 3
- 0 2\n"))
+             (str " 0 1\n"
+                  " 2 3\n")))
+      (is (= (print-board board n :rotate-left-90) 
+             (str " 1 3\n"
+                  " 0 2\n")))
       (is (= (print-board board n :rotate-left-180) 
-" 3 2
- 1 0\n"))
+             (str " 3 2\n"
+                  " 1 0\n")))
       (is (= (print-board board n :rotate-left-270) 
-" 2 0
- 3 1\n"))
+             (str " 2 0\n"
+                  " 3 1\n")))
       (is (= (print-board board n :reflect-on-d1) 
-" 0 2
- 1 3\n"))
-      (is (= (print-board board n :reflect-on-d2)
-" 3 1
- 2 0\n"))
-      (is (= (print-board board n :reflect-vertical)
-" 1 0
- 3 2\n"))
-      (is (= (print-board board n :reflect-horizontal)
-" 2 3
- 0 1\n"))
+             (str " 0 2\n"
+                  " 1 3\n")))
+      (is (= (print-board board n :reflect-on-d2) 
+             (str " 3 1\n"
+                  " 2 0\n")))
+      (is (= (print-board board n :reflect-vertical) 
+             (str " 1 0\n"
+                  " 3 2\n")))
+      (is (= (print-board board n :reflect-horizontal) 
+             (str " 2 3\n"
+                  " 0 1\n")))
     )))
 
 (deftest print-perms-3
   (testing "print permutations for 3x3"
     (let [n 3 board (range-board n)]
-      (is (= (print-board board n :normal)
-" 0 1 2
- 3 4 5
- 6 7 8\n"))
-      (is (= (print-board board n :rotate-left-90)
-" 2 5 8
- 1 4 7
- 0 3 6\n"))
-      (is (= (print-board board n :rotate-left-180)
-" 8 7 6
- 5 4 3
- 2 1 0\n"))
-      (is (= (print-board board n :rotate-left-270)
-" 6 3 0
- 7 4 1
- 8 5 2\n"))
-      (is (= (print-board board n :reflect-on-d1)
-" 0 3 6
- 1 4 7
- 2 5 8\n"))
-      (is (= (print-board board n :reflect-on-d2)
-" 8 5 2
- 7 4 1
- 6 3 0\n"))
+      (is (= (print-board board n :normal) 
+             (str " 0 1 2\n"  
+                  " 3 4 5\n"
+                  " 6 7 8\n")))
+      (is (= (print-board board n :rotate-left-90) 
+             (str " 2 5 8\n"
+                  " 1 4 7\n"
+                  " 0 3 6\n")))
+      (is (= (print-board board n :rotate-left-180) 
+             (str " 8 7 6\n"
+                  " 5 4 3\n"
+                  " 2 1 0\n")))
+      (is (= (print-board board n :rotate-left-270) 
+             (str " 6 3 0\n"
+                  " 7 4 1\n"
+                  " 8 5 2\n")))
+      (is (= (print-board board n :reflect-on-d1) 
+             (str " 0 3 6\n"
+                  " 1 4 7\n"
+                  " 2 5 8\n")))
+      (is (= (print-board board n :reflect-on-d2) 
+             (str " 8 5 2\n"
+                  " 7 4 1\n"
+                  " 6 3 0\n")))
       (is (= (print-board board n :reflect-vertical)
-" 2 1 0
- 5 4 3
- 8 7 6\n"))
+             (str " 2 1 0\n"
+                  " 5 4 3\n"
+                  " 8 7 6\n")))
       (is (= (print-board board n :reflect-horizontal)
-" 6 7 8
- 3 4 5
- 0 1 2\n"))
+             (str " 6 7 8\n"
+                  " 3 4 5\n"
+                  " 0 1 2\n")))
     )))
