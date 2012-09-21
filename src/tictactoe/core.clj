@@ -1,8 +1,8 @@
 (ns tictactoe.core
-  (:require [tictactoe.game :as game]))
+  (:use tictactoe.game))
 
 (defn -main
   "I play tic-tac-toe."
   [& args]
   (println "Starting game...")
-  (game/play))
+  (play 3))
