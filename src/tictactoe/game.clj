@@ -32,6 +32,21 @@
         s (map #(str q % q) board)]
     (str "[" (clojure.string/join ", " s) "]" )))
 
+(defn find-board
+  [board n]
+  (loop [i 0]
+    (if (= i (count (keys permutation-map)))
+      nil
+      (let [permutation (nth (keys permutation-map) i)
+            b (get-permutated-board board n permutation)
+            data (cy/query (str "START n=node(*) WHERE n.board=" (board-to-str b) " RETURN n"))]
+        (if (= 0 (count (:data data)))
+          (recur (+ i 1))
+          (let [n (records/instantiate-node-from (first (first (:data data))))]
+            {:node n
+             :board (get-board n)
+             :permutation permutation}))))))
+
 (defn solve-recurse
   [root p n]
   (let [board (get-board root)
@@ -40,16 +55,15 @@
     (loop [i 0]
       (if (< i (count possible-moves))
         (let [newboard (set-board-value board (possible-moves i) player)
-              data (cy/query (str "START n=node(*) WHERE n.board=" (board-to-str newboard) " RETURN n"))]
-              ;res (records/instantiate-node-from (first (first (:data data))))]
-          (println (board-to-str newboard))
-          (if (not= 0 (count (:data data)))
-            (let [res (records/instantiate-node-from (first (first (:data data))))]
-              (let [rel (nrl/create root res :move)]
-                (println "using existing board")
-                (recur (+ i 1))))
+              foundboard (find-board newboard n)]
+          (if (not= nil foundboard)
+            (let [rel (nrl/create root (:node foundboard) :move)]
+                ;(println (board-to-str newboard))
+                ;(println "using existing board")
+                (recur (+ i 1)))
             (let [move (nn/create {:board newboard :score (get-score newboard n)})
                   rel (nrl/create root move :move)]
+              (println (board-to-str newboard))
               (println "new board... recursing")
               (solve-recurse move (get-opposite p) n)
               (recur (+ i 1)))))))))

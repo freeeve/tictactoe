@@ -26,6 +26,18 @@
   ([board x y n permutation]
   (board ((permutation permutation-map) x y n))))
 
+(defn get-permutated-board
+  "gets a board in a particular permutation."
+  [board n permutation]
+  (loop [x 0 
+         y 0
+         newboard []]
+    (if (= y n)
+      newboard
+      (if (= x n)
+        (recur 0 (+ 1 y) newboard)
+        (recur (+ 1 x) y (conj newboard (get-board-value board x y n permutation)))))))
+
 (defn check-d1
   [board n p]
   (loop [i 0] 
@@ -105,7 +117,7 @@
   [board]
   (loop [i 0
          empty []]
-    (if (= (+ i 1) (count board))
+    (if (= i (count board))
       empty
       (if (= (board i) "")
         (recur (+ 1 i) (conj empty i))

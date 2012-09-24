@@ -154,3 +154,10 @@
           (is (= (check-verticals board n 'X) false))
           (let [board (set-board-value-x-y board 0 2 n 'X)]
             (is (= (check-verticals board n 'X) true))))))))
+
+(deftest test-get-empty-spaces
+  (testing "testing get-empty-spaces"
+    (let [n 3
+          board (empty-board n)]
+      (is (= (* n n) (count (get-empty-spaces board)))) 
+      )))
