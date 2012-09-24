@@ -106,3 +106,51 @@
                   " 3 4 5\n"
                   " 0 1 2\n")))
     )))
+
+(deftest test-check-d1-3
+  (testing "testing check-d1 n=3"
+    (let [n 3 
+          board (empty-board n)]
+      (is (= (check-d1 board n 'X) false))
+      (let [board (set-board-value-x-y board 0 0 n 'X)]
+        (is (= (check-d1 board n 'X) false))
+        (let [board (set-board-value-x-y board 1 1 n 'X)]
+          (is (= (check-d1 board n 'X) false))
+          (let [board (set-board-value-x-y board 2 2 n 'X)]
+            (is (= (check-d1 board n 'X) true))))))))
+
+(deftest test-check-d2-3
+  (testing "testing check-d2 n=3"
+    (let [n 3 
+          board (empty-board n)]
+      (is (= (check-d2 board n 'X) false))
+      (let [board (set-board-value-x-y board 0 2 n 'X)]
+        (is (= (check-d2 board n 'X) false))
+        (let [board (set-board-value-x-y board 1 1 n 'X)]
+          (is (= (check-d2 board n 'X) false))
+          (let [board (set-board-value-x-y board 2 0 n 'X)]
+            (is (= (check-d2 board n 'X) true))))))))
+
+(deftest test-check-horizontals
+  (testing "testing check-horizontals n=3"
+    (let [n 3 
+          board (empty-board n)]
+      (is (= (check-horizontals board n 'X) false))
+      (let [board (set-board-value-x-y board 0 0 n 'X)]
+        (is (= (check-horizontals board n 'X) false))
+        (let [board (set-board-value-x-y board 1 0 n 'X)]
+          (is (= (check-horizontals board n 'X) false))
+          (let [board (set-board-value-x-y board 2 0 n 'X)]
+            (is (= (check-horizontals board n 'X) true))))))))
+
+(deftest test-check-verticals
+  (testing "testing check-verticals n=3"
+    (let [n 3 
+          board (empty-board n)]
+      (is (= (check-verticals board n 'X) false))
+      (let [board (set-board-value-x-y board 0 0 n 'X)]
+        (is (= (check-verticals board n 'X) false))
+        (let [board (set-board-value-x-y board 0 1 n 'X)]
+          (is (= (check-verticals board n 'X) false))
+          (let [board (set-board-value-x-y board 0 2 n 'X)]
+            (is (= (check-verticals board n 'X) true))))))))

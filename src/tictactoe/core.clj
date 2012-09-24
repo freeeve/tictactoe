@@ -5,4 +5,4 @@
   "I play tic-tac-toe."
   [& args]
   (println "Starting game...")
-  (play 3))
+  (solve 3))

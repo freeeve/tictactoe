@@ -16,6 +16,70 @@
    :reflect-on-d2      (fn [x y n] (+ (- n (+ y 1)) (* (- n (+ x 1)) n)))
    })
 
+(defn get-board-value
+  "gets the value of a position on a board of n * n, after applying a permutation 
+  function to the coordinates. defaults: n=2, permutation=:normal"
+  ([board x y]
+  (get-board-value board x y 3 :normal))
+  ([board x y n]
+  (get-board-value board x y n :normal))
+  ([board x y n permutation]
+  (board ((permutation permutation-map) x y n))))
+
+(defn check-d1
+  [board n p]
+  (loop [i 0] 
+    (if (= i n)
+      true
+      (if (and (< i n) (not= p (get-board-value board i i n)))
+        false
+        (recur (+ i 1))))))
+
+(defn check-d2
+  [board n p]
+  (loop [i 0] 
+    (if (= i n)
+      true
+      (if (and (< i n) (not= p (get-board-value board (- n (+ i 1)) i n)))
+        false
+        (recur (+ i 1))))))
+
+(defn check-row
+  [board row n p]
+  (loop [x 0]
+    (if (= x n)
+      true
+      (if (= p (get-board-value board x row n))
+        (recur (+ 1 x))
+        false))))
+
+(defn check-horizontals
+  [board n p]
+  (loop [row 0]
+    (if (= row n)
+      false 
+      (if (= true (check-row board row n p))
+        true
+        (recur (+ 1 row))))))
+        
+(defn check-column
+  [board col n p]
+  (loop [y 0]
+    (if (= y n)
+      true
+      (if (= p (get-board-value board col y n))
+        (recur (+ 1 y))
+        false))))
+
+(defn check-verticals
+  [board n p]
+  (loop [col 0]
+    (if (= col n)
+      false 
+      (if (= true (check-column board col n p))
+        true
+        (recur (+ 1 col))))))
+        
 (defn check-all 
   [board n p]
   (if (check-d1 board n p)
@@ -30,10 +94,11 @@
 
 (defn get-score
   [board n]
-  (let [p 'X
-        x-score (check-all board n p)
-        opp 'O
-        o-score (check-all board n opp)]))
+  (if (= true (check-all board n 'X))
+    1
+    (if (= true (check-all board n 'O))
+      -1
+      0)))
 
 (defn get-empty-spaces
   "returns a vector of the empty spaces within a board"
@@ -46,20 +111,15 @@
         (recur (+ 1 i) (conj empty i))
         (recur (+ 1 i) empty)))))
 
-(defn get-board-value
-  "gets the value of a position on a board of n * n, after applying a permutation 
-  function to the coordinates. defaults: n=2, permutation=:normal"
-  ([board x y]
-  (get-board-value board x y 3 :normal))
-  ([board x y n]
-  (get-board-value board x y n :normal))
-  ([board x y n permutation]
-  (board ((permutation permutation-map) x y n))))
-
 (defn set-board-value
   "sets the value of a position on a board of n*n"
   [board i val]
   (assoc board i val))
+
+(defn set-board-value-x-y
+  "sets the value of a position on a board of n*n"
+  [board x y n val]
+  (assoc board ((permutation-map :normal) x y n) val))
 
 (defn print-board [board n permutation]
   (loop [x 0
