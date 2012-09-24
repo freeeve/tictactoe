@@ -61,18 +61,20 @@
                 ;(println (board-to-str newboard))
                 ;(println "using existing board")
                 (recur (+ i 1)))
-            (let [move (nn/create {:board newboard :score (get-score newboard n)})
+            (let [move (nn/create {:board newboard :score (get-score newboard n) :n n})
                   rel (nrl/create root move :move)]
-              (println (board-to-str newboard))
-              (println "new board... recursing")
-              (solve-recurse move (get-opposite p) n)
+              (if (= 0 (get-score newboard n))
+                (do
+                  (println (print-board newboard n :normal))
+                  (println "new board... recursing")
+                  (solve-recurse move (get-opposite p) n)))
               (recur (+ i 1)))))))))
 
 (defn solve
   "store all possible moves into the database."
   [n]
   (nr/connect! "http://localhost:7474/db/data/")
-  (let [root (nn/create {:board (empty-board n) :score 0})]
+  (let [root (nn/create {:board (empty-board n) :score 0 :n n})]
     (solve-recurse root 'X n)))
 
 (defn play 
